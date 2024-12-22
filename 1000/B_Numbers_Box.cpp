@@ -24,24 +24,35 @@ ll gcd(ll a, ll b) { while (b) { a %= b; swap(a, b); } return a; }
 ll lcm(ll a, ll b) { return a / gcd(a, b) * b; }
 bool is_prime(ll n) { if (n <= 1) return false; if (n <= 3) return true; if (n % 2 == 0 || n % 3 == 0) return false; for (ll i = 5; i * i <= n; i += 6) { if (n % i == 0 || n % (i + 2) == 0) return false; } return true; }
 vector<ll> sieve(ll n) { vector<ll> primes; vector<bool> is_prime(n + 1, true); for (ll p = 2; p <= n; p++) { if (is_prime[p]) { primes.pb(p); for (ll i = p * p; i <= n; i += p) { is_prime[i] = false; } } } return primes; }
-vll primes = sieve(100000);
+
+
+
 
 void solve() {
-    ll d;
-    cin >> d;   
-    ll a = 1;
-    ll last = 1;
-    ll i = 0;
-    ll k = 0;
-    while(k<2){
-        if (primes[i] - last >= d) {
-            a*=1ll * primes[i];
-            last = primes[i];
-            k++;
+    ll n, m;
+    cin >> n >> m;
+    ll sum = 0;
+    ll X = 0;
+    ll mini = LLONG_MAX;
+    vector<vector<ll>> a(n, vector<ll>(m));
+    for(int i = 0 ; i<n; i++){
+        for(int j = 0; j<m; j++){
+            cin >> a[i][j];
+            if(a[i][j] <= 0){
+                X++;
+            }
+                mini  = min(mini, abs(a[i][j]));
+            sum += abs(a[i][j]);
         }
-        i++;
     }
-    cout << a << endl;
+    if(X%2 == 0){
+        cout << sum << endl;
+        return;
+    }
+    else{
+        cout << sum - 2*mini << endl;
+        return;
+    }
 }
 
 int main() {

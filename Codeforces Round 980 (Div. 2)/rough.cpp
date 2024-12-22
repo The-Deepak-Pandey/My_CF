@@ -24,24 +24,12 @@ ll gcd(ll a, ll b) { while (b) { a %= b; swap(a, b); } return a; }
 ll lcm(ll a, ll b) { return a / gcd(a, b) * b; }
 bool is_prime(ll n) { if (n <= 1) return false; if (n <= 3) return true; if (n % 2 == 0 || n % 3 == 0) return false; for (ll i = 5; i * i <= n; i += 6) { if (n % i == 0 || n % (i + 2) == 0) return false; } return true; }
 vector<ll> sieve(ll n) { vector<ll> primes; vector<bool> is_prime(n + 1, true); for (ll p = 2; p <= n; p++) { if (is_prime[p]) { primes.pb(p); for (ll i = p * p; i <= n; i += p) { is_prime[i] = false; } } } return primes; }
-vll primes = sieve(100000);
+
+
+
 
 void solve() {
-    ll d;
-    cin >> d;   
-    ll a = 1;
-    ll last = 1;
-    ll i = 0;
-    ll k = 0;
-    while(k<2){
-        if (primes[i] - last >= d) {
-            a*=1ll * primes[i];
-            last = primes[i];
-            k++;
-        }
-        i++;
-    }
-    cout << a << endl;
+   
 }
 
 int main() {
