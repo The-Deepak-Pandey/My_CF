@@ -29,7 +29,12 @@ vector<ll> sieve(ll n) { vector<ll> primes; vector<bool> is_prime(n + 1, true); 
 
 
 void solve() {
-   
+    int n;
+    cin >> n;
+    vector<ll> a(n), b(n);
+    for(int i = 0; i<n; i++){
+        cin >> a[i] >> b[i];
+    }
 }
 
 int main() {
