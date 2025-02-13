@@ -68,45 +68,20 @@ vector<ll> sieve(ll n)
 
 void solve()
 {
-    ll a;
-    cin >> a;
-    for (ll i = a; i < a + 2520; i++)
+    int n, s;
+    cin >> n >> s;
+    int x[n];
+    int y[n];
+    int k[n];
+    int i = 0;
+    while (i < n)
     {
-        set<ll> nos;
-        ll count = 0;
-        ll temp = i;
-
-        if (i % 2520 == 0)
-        {
-            cout << i << endl;
-            break;
-        }
-        ll flag = 1;
-        while (temp > 0)
-        {
-            if (temp % 10 != 0)
-            {
-                if (i % (temp % 10) == 0)
-                {
-                    flag = 1;
-                }
-                else
-                {
-                    flag = 0;
-                    break;
-                }
-            }
-
-            count++;
-            temp /= 10;
-        }
-
-        if (flag)
-        {
-            cout << i << endl;
-            break;
-        }
+        cin >> x[i] >> y[i] >> k[i];
+        i++;
     }
+    float ans;
+    
+
 }
 
 int main()
@@ -114,7 +89,7 @@ int main()
     fastio;
 
     int t;
-    cin >> t;
+    t = 1;
     while (t--)
     {
         solve();

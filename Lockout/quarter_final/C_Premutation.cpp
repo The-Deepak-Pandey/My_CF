@@ -68,45 +68,37 @@ vector<ll> sieve(ll n)
 
 void solve()
 {
-    ll a;
-    cin >> a;
-    for (ll i = a; i < a + 2520; i++)
+    int n;
+    cin >> n;
+    vector<pair<int, int>> priority(n+1);
+    for (int i = 1; i < n+1; i++)
     {
-        set<ll> nos;
-        ll count = 0;
-        ll temp = i;
-
-        if (i % 2520 == 0)
+        priority[i].first = 0;
+        priority[i].second = i;
+    }
+    priority[0].first = 100000;
+    priority[0].second = 0;
+    for (int i = 0; i < n; i++)
+    {
+        int seq[n - 1];
+        for (int i = 0; i < n - 1; i++)
         {
-            cout << i << endl;
-            break;
-        }
-        ll flag = 1;
-        while (temp > 0)
-        {
-            if (temp % 10 != 0)
-            {
-                if (i % (temp % 10) == 0)
-                {
-                    flag = 1;
-                }
-                else
-                {
-                    flag = 0;
-                    break;
-                }
-            }
-
-            count++;
-            temp /= 10;
-        }
-
-        if (flag)
-        {
-            cout << i << endl;
-            break;
+            cin >> seq[i];
+            priority[seq[i]].first+=i;
         }
     }
+
+    int ans[n];
+    sort(priority.begin(), priority.end());
+    
+    for(int i= 0; i<n; i++){
+        ans[i] = priority[i].second;
+    }
+
+    for(int i = 0; i<n; i++){
+        cout << ans[i] << " ";
+    }
+    cout << endl;
 }
 
 int main()
