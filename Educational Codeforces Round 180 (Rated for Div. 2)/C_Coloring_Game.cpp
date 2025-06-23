@@ -32,26 +32,30 @@ void solve() {
     int n;
     cin >> n;
     vector<int> a(n);
+    for (int i = 0; i < n; ++i) {
+        cin >> a[i];
+    }
 
-    for (int i = 0; i < n; ++i) cin >> a[i];
 
-    ll count = 0;
+    ll ans = 0;
 
     for (int k = 2; k < n; ++k) {
-        int T = max(a[k], a[n - 1] - a[k]);
+        ll case1 = a[k];
+        ll case2 = a[n-1] - a[k];
+        ll maxi = max(case1, case2);
 
-        int l = 0, r = k - 1;
-        while (l < r) {
-            if (a[l] + a[r] > T) {
-                count += (r - l);
-                r--;
+        int i = 0, j = k - 1;
+        while (i < j) {
+            if (a[i] + a[j] > maxi) {
+                ans += (j - i);
+                j--;
             } else {
-                l++;
+                i++;
             }
         }
     }
 
-    cout << count << '\n';
+    cout << ans << '\n';
 }
 
 int main() {
