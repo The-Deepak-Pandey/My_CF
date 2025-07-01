@@ -31,10 +31,28 @@ vector<ll> sieve(ll n) { vector<ll> primes; vector<bool> is_prime(n + 1, true); 
 void solve() {
     int n, j, k;
     cin >> n >> j >> k;
+
     vector<int> a(n);
     for (int i = 0; i < n; i++) {
         cin >> a[i];
     }
+
+    if(k > 1){
+        cout << "YES" << endl;
+        return;
+    }
+
+    int maxi = INT_MIN;
+    for (int i = 0; i < n; i++) {
+        maxi = max(maxi, a[i]);
+    }
+
+    if(a[j-1] == maxi) {
+        cout << "YES" << endl;
+    } else {
+        cout << "NO" << endl;
+    }
+
 }
 
 int main() {
