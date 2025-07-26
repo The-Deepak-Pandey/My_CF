@@ -26,12 +26,21 @@ bool is_prime(ll n) { if (n <= 1) return false; if (n <= 3) return true; if (n %
 vector<ll> sieve(ll n) { vector<ll> primes; vector<bool> is_prime(n + 1, true); for (ll p = 2; p <= n; p++) { if (is_prime[p]) { primes.pb(p); for (ll i = p * p; i <= n; i += p) { is_prime[i] = false; } } } return primes; }
 
 
-
-
 void solve() {
     int n;
     cin >> n;
     string s;
+    cin >> s;
+    set<char> st;
+
+    int ans = 0;
+
+    for(auto it : s){
+        st.insert(it);
+        ans+=st.size();
+    }
+
+    cout << ans << endl;
 
 }
 
