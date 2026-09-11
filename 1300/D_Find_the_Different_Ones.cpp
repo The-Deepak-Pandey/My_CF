@@ -29,31 +29,36 @@ vector<ll> sieve(ll n) { vector<ll> primes; vector<bool> is_prime(n + 1, true); 
 
 
 void solve() {
-    ll n, x, y;
-    cin >> n >> x >> y;
-    vector<ll> arr(n);
-    for (ll i = 0; i < n; i++) {
-        cin >> arr[i];
+int n;
+    if (!(cin >> n)) return;
+
+    vector<int> a(n);
+    for (int i = 0; i < n; ++i) {
+        cin >> a[i];
     }
-    map<std::pair<int, int>, int> remainder_map;
-    long long total_pairs = 0;
 
-    for (int val : arr) {
-        int rem_x = val % x;
-        int rem_y = val % y;
-
-        int target_x = (x - rem_x) % x;
-        int target_y = rem_y;
-
-        std::pair<int, int> target_key = {target_x, target_y};
-        if (remainder_map.find(target_key) != remainder_map.end()) {
-            total_pairs += remainder_map[target_key];
+    vector<int> p(n, -1);
+    for (int i = 1; i < n; ++i) {
+        p[i] = p[i - 1];
+        if (a[i] != a[i - 1]) {
+            p[i] = i - 1;
         }
-
-        remainder_map[{rem_x, rem_y}]++;
     }
 
-    cout << total_pairs << endl;
+    int q;
+    cin >> q;
+    while (q--) {
+        int l, r;
+        cin >> l >> r;
+        --l;
+        --r;
+
+        if (p[r] < l) {
+            cout << "-1 -1\n";
+        } else {
+            cout << p[r] + 1 << " " << r + 1 << "\n";
+        }
+    }
 }
 
 int main() {

@@ -29,31 +29,43 @@ vector<ll> sieve(ll n) { vector<ll> primes; vector<bool> is_prime(n + 1, true); 
 
 
 void solve() {
-    ll n, x, y;
-    cin >> n >> x >> y;
-    vector<ll> arr(n);
+    ll n;
+    cin >> n;
+    vector<ll> a(n);
     for (ll i = 0; i < n; i++) {
-        cin >> arr[i];
+        cin >> a[i];
     }
-    map<std::pair<int, int>, int> remainder_map;
-    long long total_pairs = 0;
+    vector<ll> prefEven(n, 0), prefOdd(n, 0);
+    prefEven[0] = a[0];
+    int flag = 0;
+    map<ll, ll> mp;
 
-    for (int val : arr) {
-        int rem_x = val % x;
-        int rem_y = val % y;
+    mp[prefOdd[0] - prefEven[0]]++;
 
-        int target_x = (x - rem_x) % x;
-        int target_y = rem_y;
+    for(int i = 1; i < n; i++){
+        prefOdd[i] += prefOdd[i - 1];
+        prefEven[i] += prefEven[i - 1];
 
-        std::pair<int, int> target_key = {target_x, target_y};
-        if (remainder_map.find(target_key) != remainder_map.end()) {
-            total_pairs += remainder_map[target_key];
+        if(i%2 == 0){
+            prefEven[i] += a[i];
+        } else {
+            prefOdd[i] += a[i];
         }
 
-        remainder_map[{rem_x, rem_y}]++;
+        mp[prefOdd[i] - prefEven[i]]++;
+
+        // if curr difference has been seen before
+        if(mp[prefOdd[i] - prefEven[i]] == 2 || prefOdd[i] - prefEven[i] == 0){
+            flag = 1;
+            break;
+        }
     }
 
-    cout << total_pairs << endl;
+    if(flag){
+        cout << "YES" << endl;
+    } else {
+        cout << "NO" << endl;
+    }
 }
 
 int main() {

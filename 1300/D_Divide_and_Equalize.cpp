@@ -26,34 +26,45 @@ bool is_prime(ll n) { if (n <= 1) return false; if (n <= 3) return true; if (n %
 vector<ll> sieve(ll n) { vector<ll> primes; vector<bool> is_prime(n + 1, true); for (ll p = 2; p <= n; p++) { if (is_prime[p]) { primes.pb(p); for (ll i = p * p; i <= n; i += p) { is_prime[i] = false; } } } return primes; }
 
 
-
-
-void solve() {
-    ll n, x, y;
-    cin >> n >> x >> y;
-    vector<ll> arr(n);
-    for (ll i = 0; i < n; i++) {
-        cin >> arr[i];
-    }
-    map<std::pair<int, int>, int> remainder_map;
-    long long total_pairs = 0;
-
-    for (int val : arr) {
-        int rem_x = val % x;
-        int rem_y = val % y;
-
-        int target_x = (x - rem_x) % x;
-        int target_y = rem_y;
-
-        std::pair<int, int> target_key = {target_x, target_y};
-        if (remainder_map.find(target_key) != remainder_map.end()) {
-            total_pairs += remainder_map[target_key];
+void add_prime_factors(ll val, map<ll, ll> &factor_counts){
+    for(int d = 2; d * d <= val; d++){
+        while(val % d == 0){
+            factor_counts[d]++;
+            val /= d;
         }
+    }
+    if(val > 1){
+        factor_counts[val]++;
+    }
+}
 
-        remainder_map[{rem_x, rem_y}]++;
+void solve() {  
+    ll n;
+    cin >> n;
+    vector<ll> a(n);
+
+    map<ll, ll> factor_counts;
+
+    for (ll i = 0; i < n; i++) {
+        cin >> a[i];
+        add_prime_factors(a[i], factor_counts);
     }
 
-    cout << total_pairs << endl;
+    bool flag = true;
+
+    for(auto &p : factor_counts){
+        if(p.second % n != 0){
+            flag = false;
+            break;
+        }
+    }
+
+    if(flag){
+        cout << "YES\n";
+    } else {
+        cout << "NO\n";
+    }
+
 }
 
 int main() {
