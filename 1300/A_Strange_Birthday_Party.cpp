@@ -26,47 +26,55 @@ bool is_prime(ll n) { if (n <= 1) return false; if (n <= 3) return true; if (n %
 vector<ll> sieve(ll n) { vector<ll> primes; vector<bool> is_prime(n + 1, true); for (ll p = 2; p <= n; p++) { if (is_prime[p]) { primes.pb(p); for (ll i = p * p; i <= n; i += p) { is_prime[i] = false; } } } return primes; }
 
 
+ll help(ll ind, vector<ll> &k, vector<ll> &c, vector<ll> &used){
+    if(ind == k.size()) return 0;
 
+    // Option 1: Give c[k[ind]] dollars to the friend at index ind
+    ll option1 = c[k[ind]] + help(ind + 1, k, c, used);
+
+    // Option 2: Buy a present j <= k[ind] which costs c[j] dollars and give it to the friend at index ind if it is not used yet
+    ll option2 = LLONG_MAX-1e18;
+
+    for(ll j = 0; j <= k[ind]; j++) {
+        if(used[j] == 0) {
+            used[j] = 1; // Mark present j as used
+            option2 = min(option2, c[j] + help(ind + 1, k, c, used));
+            used[j] = 0; // Backtrack: unmark present j
+        }
+    }
+
+    return min(option1, option2);
+}
 
 void solve() {
-    ll n;
-    cin >> n;
-    // vector<ll> min_power_to_enter_cave(n);
-    // for(ll i = 0; i < n; i++) {
-    //     ll size_of_cave;
-    //     cin >> size_of_cave;
-    //     ll min_power = 0;
-    //     ll power_after_exiting = 0;
-    //     for(ll j = 0; j < size_of_cave; j++) {
-    //         ll monster_power;
-    //         cin >> monster_power;
-    //         min_power = max(min_power, monster_power+1);
-    //         p
-    //     }
-    //     min_power_to_enter_cave[i] = min_power;
-    // }
-    vector<pair<ll, ll>> caves(n);
+    ll n, m;
+    cin >> n >> m;
+    vector<ll> k(n), c(m);
     for(ll i = 0; i < n; i++) {
-        ll m;
-        cin >> m;
-        vector<ll> monsters;
-        for(ll j = 0; j < m; j++) {
-            ll x;
-            cin >> x;
-            monsters.pb(x-j+1);
+        cin >> k[i];
+        // k[i]--;
+    }
+    for(ll i = 0; i < m; i++) {
+        cin >> c[i];
+    }
+
+    // vector<ll> used(m, 0); // To keep track of used presents
+    // cout << help(0, k, c, used) << endl;
+
+    sort(k.begin(), k.end());
+    ll ans = 0;
+    ll p = 0;
+
+    for(ll i = n-1; i >= 0; i--){
+        if(p < m && c[p] < c[k[i]-1]){
+            ans += c[p];
+            p++;
+        } else {
+            ans += c[k[i]-1];
         }
-        sort(monsters.begin(), monsters.end());
-        caves[i] = {monsters[m-1], m};
     }
-    sort(caves.begin(), caves.end());
-    ll ans = caves[0].first;
-    ll increment = caves[0].second;
-    for(ll i = 1; i < n; i++){
-        ans = max(ans, caves[i].first - increment);
-        increment += caves[i].second;
-    }
+
     cout << ans << endl;
-    return;
 }
 
 int main() {

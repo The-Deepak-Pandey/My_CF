@@ -31,42 +31,23 @@ vector<ll> sieve(ll n) { vector<ll> primes; vector<bool> is_prime(n + 1, true); 
 void solve() {
     ll n;
     cin >> n;
-    // vector<ll> min_power_to_enter_cave(n);
-    // for(ll i = 0; i < n; i++) {
-    //     ll size_of_cave;
-    //     cin >> size_of_cave;
-    //     ll min_power = 0;
-    //     ll power_after_exiting = 0;
-    //     for(ll j = 0; j < size_of_cave; j++) {
-    //         ll monster_power;
-    //         cin >> monster_power;
-    //         min_power = max(min_power, monster_power+1);
-    //         p
-    //     }
-    //     min_power_to_enter_cave[i] = min_power;
-    // }
-    vector<pair<ll, ll>> caves(n);
-    for(ll i = 0; i < n; i++) {
-        ll m;
-        cin >> m;
-        vector<ll> monsters;
-        for(ll j = 0; j < m; j++) {
-            ll x;
-            cin >> x;
-            monsters.pb(x-j+1);
+    vector<ll> p(n);
+    for (ll i = 0; i < n; i++) {
+        cin >> p[i];
+    }
+    vector<ll> ans;
+    ans.pb(p[0]);
+    for (ll i = 1; i < n-1; i++) {
+        if ((p[i] > p[i-1] && p[i] > p[i+1]) || (p[i] < p[i-1] && p[i] < p[i+1])) {
+            ans.pb(p[i]);
         }
-        sort(monsters.begin(), monsters.end());
-        caves[i] = {monsters[m-1], m};
     }
-    sort(caves.begin(), caves.end());
-    ll ans = caves[0].first;
-    ll increment = caves[0].second;
-    for(ll i = 1; i < n; i++){
-        ans = max(ans, caves[i].first - increment);
-        increment += caves[i].second;
+    ans.pb(p[n-1]);
+    cout << sz(ans) << endl;
+    for (ll i = 0; i < sz(ans); i++) {
+        cout << ans[i] << " ";
     }
-    cout << ans << endl;
-    return;
+    cout << endl;
 }
 
 int main() {

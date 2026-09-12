@@ -29,44 +29,33 @@ vector<ll> sieve(ll n) { vector<ll> primes; vector<bool> is_prime(n + 1, true); 
 
 
 void solve() {
-    ll n;
-    cin >> n;
-    // vector<ll> min_power_to_enter_cave(n);
-    // for(ll i = 0; i < n; i++) {
-    //     ll size_of_cave;
-    //     cin >> size_of_cave;
-    //     ll min_power = 0;
-    //     ll power_after_exiting = 0;
-    //     for(ll j = 0; j < size_of_cave; j++) {
-    //         ll monster_power;
-    //         cin >> monster_power;
-    //         min_power = max(min_power, monster_power+1);
-    //         p
-    //     }
-    //     min_power_to_enter_cave[i] = min_power;
-    // }
-    vector<pair<ll, ll>> caves(n);
-    for(ll i = 0; i < n; i++) {
-        ll m;
-        cin >> m;
-        vector<ll> monsters;
-        for(ll j = 0; j < m; j++) {
-            ll x;
-            cin >> x;
-            monsters.pb(x-j+1);
+    ll n, W;
+    cin >> n >> W;
+    multiset<ll> ms;
+    for (int i = 0; i < n; i++) {
+        ll x;
+        cin >> x;
+        ms.insert(x);
+    }
+
+    ll ans = 0;
+    while (!ms.empty()) {
+        ll curW = W;
+        ans++;
+        while (true) {
+            // Find the largest element <= curW
+            auto it = ms.upper_bound(curW);
+            if (it == ms.begin()) {
+                // No element can fit in the remaining width
+                break;
+            }
+            --it;
+            curW -= *it;
+            ms.erase(it);
         }
-        sort(monsters.begin(), monsters.end());
-        caves[i] = {monsters[m-1], m};
     }
-    sort(caves.begin(), caves.end());
-    ll ans = caves[0].first;
-    ll increment = caves[0].second;
-    for(ll i = 1; i < n; i++){
-        ans = max(ans, caves[i].first - increment);
-        increment += caves[i].second;
-    }
-    cout << ans << endl;
-    return;
+
+    cout << ans << "\n";
 }
 
 int main() {
