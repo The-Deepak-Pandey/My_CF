@@ -29,37 +29,40 @@ vector<ll> sieve(ll n) { vector<ll> primes; vector<bool> is_prime(n + 1, true); 
 
 
 void solve() {
-    int n;
-    cin >> n;
-    vector<int> typeOfCandy(n);
-    unordered_map<int, int> candyCount;
+int n, m, k;
+    if (!(cin >> n >> m >> k)) return;
+
+    vector<int> b(n);
     for (int i = 0; i < n; i++) {
-        cin >> typeOfCandy[i];
-        candyCount[typeOfCandy[i]]++;
-    }
-    vector<pair<int, int>> sortedCandyCount(candyCount.begin(), candyCount.end());
-    sort(sortedCandyCount.begin(), sortedCandyCount.end(), [](const pair<int, int>& a, const pair<int, int>& b) {
-        return a.second > b.second; // Sort by count in descending order
-    });
-    ll maxCount = sortedCandyCount[0].second;
-    ll prevCount = sortedCandyCount[0].second;
-    for(int i = 1; i < sortedCandyCount.size(); i++) {
-        ll currentCount = min(prevCount - 1, (ll)sortedCandyCount[i].second);
-        if(currentCount <= 0) {
-            break;
-        }
-        maxCount += currentCount;
-        prevCount = currentCount;
+        cin >> b[i];
     }
 
-    cout << maxCount << endl;
+    if (n == 1) {
+        cout << 1 << "\n";
+        return;
+    }
+
+    vector<int> gaps;
+    for (int i = 0; i < n - 1; i++) {
+        gaps.push_back(b[i + 1] - b[i] - 1);
+    }
+
+    sort(gaps.rbegin(), gaps.rend());
+
+    ll ans = b[n - 1] - b[0] + 1;
+
+    for (int i = 0; i < k - 1 && i < (int)gaps.size(); i++) {
+        ans -= gaps[i];
+    }
+
+    cout << ans << "\n";
 }
 
 int main() {
     fastio;
 
-    int t;
-    cin >> t;
+    int t = 1;
+    // cin >> t;
     while (t--) {
         solve();
     }
